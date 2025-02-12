@@ -6,7 +6,7 @@ const router = express.Router();
 /**
  * @swagger
  * /auth/login:
- *   get:
+ *   post:
  *     summary: Login a user
  *     tags: [Auth]
  *     requestBody:
@@ -28,7 +28,7 @@ const router = express.Router();
  *       401:
  *         description: Invalid email or password
  */
-router.get("/login", login);
+router.post("/login", login);
 
 /**
  * @swagger
