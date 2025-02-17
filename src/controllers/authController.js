@@ -21,7 +21,7 @@ exports.getLoginForm = (req, res) => {
     <label for="token">Token:</label>
     <textarea id="token" name="token" rows="4" cols="50"></textarea>
     <br>
-    <button onclick="window.location.href='http://localhost:3000/api-docs'">Go to API Docs</button>
+    <button onclick="window.location.href='https://apis-cgk0.onrender.com/api-docs'">Go to API Docs</button>
     <script>
       document.querySelector('form').addEventListener('submit', async function(event) {
         event.preventDefault();
