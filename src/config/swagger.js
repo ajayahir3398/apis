@@ -14,6 +14,20 @@ const options = {
         url: "https://apis-cgk0.onrender.com/api",
       },
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   apis: ["./src/routes/*.js", "./src/models/*.js"], // files containing annotations for the OpenAPI Specification
 };

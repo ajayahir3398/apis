@@ -23,6 +23,49 @@ const router = express.Router();
  *     responses:
  *       200:
  *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 token:
+ *                   type: string
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                     businessName:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *                     gstNo:
+ *                       type: string
+ *                     mobileNo:
+ *                       type: string
+ *                     email:
+ *                       type: string
+ *                     gender:
+ *                       type: string
+ *                     dob:
+ *                       type: string
+ *                     address:
+ *                       type: object
+ *                       properties:
+ *                         street:
+ *                           type: string
+ *                         street2:
+ *                           type: string
+ *                         city:
+ *                           type: string
+ *                         state:
+ *                           type: string
+ *                         pinCode:
+ *                           type: string
+ *                         country:
+ *                           type: string
  *       400:
  *         description: Invalid input
  *       401:
@@ -76,6 +119,13 @@ router.post("/login", login);
  *     responses:
  *       201:
  *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
  *       400:
  *         description: Invalid input
  *       500:

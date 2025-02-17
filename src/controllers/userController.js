@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
-require('dotenv').config();
+require("dotenv").config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -68,12 +68,28 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: "Passwords do not match" });
     }
 
-    // Check if the user already exists
-    const existingUser = await User.findOne({ $or: [{ email }, { mobileNo }] });
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "Email or Mobile number already exists" });
+    // Check if the email already exists
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    // Check if the mobile number already exists
+    const existingMobileNo = await User.findOne({ mobileNo });
+    if (existingMobileNo) {
+      return res.status(400).json({ message: "Mobile number already exists" });
+    }
+
+    // Check if the business name already exists
+    const existingBusinessName = await User.findOne({ businessName });
+    if (existingBusinessName) {
+      return res.status(400).json({ message: "Business name already exists" });
+    }
+
+    // Check if the GST number already exists
+    const existingGstNo = await User.findOne({ gstNo });
+    if (existingGstNo) {
+      return res.status(400).json({ message: "GST number already exists" });
     }
 
     // Hash password
