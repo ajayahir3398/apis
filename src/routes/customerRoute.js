@@ -33,6 +33,8 @@ const router = express.Router();
  *                 type: string
  *               dob:
  *                 type: string
+ *               image:
+ *                 type: string
  *               street:
  *                 type: string
  *               street2:

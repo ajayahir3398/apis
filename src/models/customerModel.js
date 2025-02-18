@@ -9,6 +9,7 @@ const customerSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     gender: { type: String, enum: ["Male", "Female", "Other"], required: true },
     dob: { type: Date, required: true },
+    image: { type: String, required: true },
     address: {
       street: { type: String, required: true },
       street2: { type: String },

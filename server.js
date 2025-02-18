@@ -3,10 +3,12 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const connectDB = require("./src/config/db");
+const swaggerSetup = require("./src/config/swagger");
 const getTokenRoute = require("./src/routes/getTokenRoute");
 const authRoute = require("./src/routes/authRoute");
 const customerRoutes = require("./src/routes/customerRoute");
-const swaggerSetup = require("./src/config/swagger");
+const productRoute = require("./src/routes/productRoute");
+const challanRoute = require("./src/routes/challanRoute");
 
 dotenv.config();
 connectDB();
@@ -21,6 +23,8 @@ app.use(bodyParser.json());
 app.use("/", getTokenRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/customer", customerRoutes);
+app.use("/api/product", productRoute);
+app.use("/api/challan", challanRoute);
 
 // Setup Swagger
 swaggerSetup(app);

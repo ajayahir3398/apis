@@ -10,6 +10,7 @@ exports.addCustomer = async (req, res) => {
       email,
       gender,
       dob,
+      image,
       street,
       street2,
       city,
@@ -27,6 +28,7 @@ exports.addCustomer = async (req, res) => {
       !email ||
       !gender ||
       !dob ||
+      !image ||
       !street ||
       !city ||
       !state ||
@@ -69,6 +71,7 @@ exports.addCustomer = async (req, res) => {
       email,
       gender,
       dob,
+      image,
       address: { street, street2, city, state, pinCode, country },
     });
 
