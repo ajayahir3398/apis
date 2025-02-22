@@ -11,7 +11,7 @@ exports.addProduct = async (req, res) => {
 
     // Create product
     const newProduct = new Product({
-      user: req.user._id,
+      user: req.user.userId,
       productName,
       price,
       quantity,
@@ -35,7 +35,7 @@ exports.getProduct = async (req, res) => {
     if (productId) {
       const product = await Product.findOne({
         _id: productId,
-        user: req.user._id,
+        user: req.user.userId,
       });
       if (!product) {
         return res.status(404).json({ message: "Product not found" });
@@ -43,7 +43,7 @@ exports.getProduct = async (req, res) => {
       return res.status(200).json(product);
     }
 
-    const products = await Product.find({ user: req.user._id });
+    const products = await Product.find({ user: req.user.userId });
     return res.status(200).json(products);
   } catch (error) {
     console.error(error);
@@ -54,7 +54,7 @@ exports.getProduct = async (req, res) => {
 exports.getProductKeyValuePair = async (req, res) => {
   try {
     const products = await Product.find(
-      { user: req.user._id },
+      { user: req.user.userId },
       "productName _id"
     );
     const productList = products.map((product) => ({

@@ -31,7 +31,7 @@ exports.addOutwardChallan = async (req, res) => {
 
     // Create outward challan
     const newOutwardChallan = new OutwardChallan({
-      user: req.user._id,
+      user: req.user.userId,
       customer,
       date,
       vehicleNo,
@@ -44,7 +44,7 @@ exports.addOutwardChallan = async (req, res) => {
     for (const item of products) {
       const product = await Product.findOne({
         _id: item.productId,
-        user: req.user._id,
+        user: req.user.userId,
       });
       if (product) {
         product.currentStock -= item.quantity;
