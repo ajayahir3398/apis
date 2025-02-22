@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
-const challanSchema = new mongoose.Schema(
+const outwardChallanSchema = new mongoose.Schema(
   {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     customer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Customer",
@@ -13,7 +14,7 @@ const challanSchema = new mongoose.Schema(
     driverMoNo: { type: String, required: true },
     products: [
       {
-        product: {
+        productId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
           required: true,
@@ -25,5 +26,5 @@ const challanSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Challan = mongoose.model("Challan", challanSchema);
-module.exports = Challan;
+const OutwardChallan = mongoose.model("OutwardChallan", outwardChallanSchema);
+module.exports = OutwardChallan;

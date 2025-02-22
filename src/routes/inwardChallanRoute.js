@@ -1,15 +1,15 @@
 const express = require("express");
-const { addChallan } = require("../controllers/challanController");
+const { addInwardChallan } = require("../controllers/inwardChallanController");
 const verifyToken = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 /**
  * @swagger
- * /challan/add:
+ * /inward-challan/add:
  *   post:
- *     summary: Add a new challan
- *     tags: [Challan]
+ *     summary: Add a new inward challan
+ *     tags: [InwardChallan]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -35,13 +35,13 @@ const router = express.Router();
  *                 items:
  *                   type: object
  *                   properties:
- *                     product:
+ *                     productId:
  *                       type: string
  *                     quantity:
  *                       type: number
  *     responses:
  *       201:
- *         description: Challan added successfully
+ *         description: Inward challan added successfully
  *         content:
  *           application/json:
  *             schema:
@@ -54,6 +54,6 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.post("/add", verifyToken, addChallan);
+router.post("/add", verifyToken, addInwardChallan);
 
 module.exports = router;
