@@ -1,10 +1,10 @@
-const Customer = require("../models/customerModel");
+const Supplier = require("../models/supplierModel");
 
-exports.addCustomer = async (req, res) => {
+exports.addSupplier = async (req, res) => {
   try {
     const {
       businessName,
-      customerName,
+      supplierName,
       gstNo,
       mobileNo,
       email,
@@ -22,7 +22,7 @@ exports.addCustomer = async (req, res) => {
     // Validate input
     if (
       !businessName ||
-      !customerName ||
+      !supplierName ||
       !gstNo ||
       !mobileNo ||
       !email ||
@@ -39,7 +39,7 @@ exports.addCustomer = async (req, res) => {
     }
 
     // Check if the email already exists
-    const existingEmail = await Customer.findOne({
+    const existingEmail = await Supplier.findOne({
       email,
       user: req.user.userId,
     });
@@ -48,7 +48,7 @@ exports.addCustomer = async (req, res) => {
     }
 
     // Check if the mobile number already exists
-    const existingMobileNo = await Customer.findOne({
+    const existingMobileNo = await Supplier.findOne({
       mobileNo,
       user: req.user.userId,
     });
@@ -57,7 +57,7 @@ exports.addCustomer = async (req, res) => {
     }
 
     // Check if the business name already exists
-    const existingBusinessName = await Customer.findOne({
+    const existingBusinessName = await Supplier.findOne({
       businessName,
       user: req.user.userId,
     });
@@ -66,7 +66,7 @@ exports.addCustomer = async (req, res) => {
     }
 
     // Check if the GST number already exists
-    const existingGstNo = await Customer.findOne({
+    const existingGstNo = await Supplier.findOne({
       gstNo,
       user: req.user.userId,
     });
@@ -74,11 +74,11 @@ exports.addCustomer = async (req, res) => {
       return res.status(400).json({ message: "GST number already exists" });
     }
 
-    // Create customer
-    const newCustomer = new Customer({
+    // Create supplier
+    const newSupplier = new Supplier({
       user: req.user.userId,
       businessName,
-      customerName,
+      supplierName,
       gstNo,
       mobileNo,
       email,
@@ -88,60 +88,60 @@ exports.addCustomer = async (req, res) => {
       address: { street, street2, city, state, pinCode, country },
     });
 
-    await newCustomer.save();
-    return res.status(201).json({ message: "Customer added successfully" });
+    await newSupplier.save();
+    return res.status(201).json({ message: "Supplier added successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-exports.getCustomer = async (req, res) => {
+exports.getSupplier = async (req, res) => {
   try {
-    const { customerId } = req.query;
+    const { supplierId } = req.query;
 
-    if (customerId) {
-      const customer = await Customer.findOne({
-        _id: customerId,
+    if (supplierId) {
+      const supplier = await Supplier.findOne({
+        _id: supplierId,
         user: req.user.userId,
       });
-      if (!customer) {
-        return res.status(404).json({ message: "Customer not found" });
+      if (!supplier) {
+        return res.status(404).json({ message: "Supplier not found" });
       }
-      return res.status(200).json(customer);
+      return res.status(200).json(supplier);
     }
 
-    const customers = await Customer.find({ user: req.user.userId });
-    return res.status(200).json(customers);
+    const suppliers = await Supplier.find({ user: req.user.userId });
+    return res.status(200).json(suppliers);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-exports.getCustomerKeyValuePair = async (req, res) => {
+exports.getSupplierKeyValuePair = async (req, res) => {
   try {
-    const customers = await Customer.find(
+    const suppliers = await Supplier.find(
       { user: req.user.userId },
       "businessName _id"
     );
-    const customerList = customers.map((customer) => ({
-      key: customer._id,
-      value: customer.businessName,
+    const supplierList = suppliers.map((supplier) => ({
+      key: supplier._id,
+      value: supplier.businessName,
     }));
-    return res.status(200).json(customerList);
+    return res.status(200).json(supplierList);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-exports.updateCustomer = async (req, res) => {
+exports.updateSupplier = async (req, res) => {
   try {
-    const { customerId } = req.params;
+    const { supplierId } = req.params;
     const {
       businessName,
-      customerName,
+      supplierName,
       gstNo,
       mobileNo,
       email,
@@ -159,7 +159,7 @@ exports.updateCustomer = async (req, res) => {
     // Validate input
     if (
       !businessName ||
-      !customerName ||
+      !supplierName ||
       !gstNo ||
       !mobileNo ||
       !email ||
@@ -175,11 +175,11 @@ exports.updateCustomer = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const customer = await Customer.findOneAndUpdate(
-      { _id: customerId, user: req.user.userId },
+    const supplier = await Supplier.findOneAndUpdate(
+      { _id: supplierId, user: req.user.userId },
       {
         businessName,
-        customerName,
+        supplierName,
         gstNo,
         mobileNo,
         email,
@@ -191,31 +191,31 @@ exports.updateCustomer = async (req, res) => {
       { new: true }
     );
 
-    if (!customer) {
-      return res.status(404).json({ message: "Customer not found" });
+    if (!supplier) {
+      return res.status(404).json({ message: "Supplier not found" });
     }
 
-    return res.status(200).json({ message: "Customer updated successfully", customer });
+    return res.status(200).json({ message: "Supplier updated successfully", supplier });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-exports.deleteCustomer = async (req, res) => {
+exports.deleteSupplier = async (req, res) => {
   try {
-    const { customerId } = req.params;
+    const { supplierId } = req.params;
 
-    const customer = await Customer.findOneAndDelete({
-      _id: customerId,
+    const supplier = await Supplier.findOneAndDelete({
+      _id: supplierId,
       user: req.user.userId,
     });
 
-    if (!customer) {
-      return res.status(404).json({ message: "Customer not found" });
+    if (!supplier) {
+      return res.status(404).json({ message: "Supplier not found" });
     }
 
-    return res.status(200).json({ message: "Customer deleted successfully" });
+    return res.status(200).json({ message: "Supplier deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

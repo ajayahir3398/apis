@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /inward-challan/add:
+ * /inward-challan:
  *   post:
  *     summary: Add a new inward challan
  *     tags: [InwardChallan]
@@ -19,7 +19,7 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               customer:
+ *               supplier:
  *                 type: string
  *               date:
  *                 type: string
@@ -54,6 +54,6 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.post("/add", verifyToken, addInwardChallan);
+router.post("/", verifyToken, addInwardChallan);
 
 module.exports = router;

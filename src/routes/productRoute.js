@@ -3,6 +3,8 @@ const {
   addProduct,
   getProduct,
   getProductKeyValuePair,
+  updateProduct,
+  deleteProduct,
 } = require("../controllers/productController");
 const verifyToken = require("../middleware/authMiddleware");
 
@@ -26,8 +28,6 @@ const router = express.Router();
  *               productName:
  *                 type: string
  *               price:
- *                 type: number
- *               quantity:
  *                 type: number
  *               uom:
  *                 type: string
@@ -83,8 +83,6 @@ router.post("/add", verifyToken, addProduct);
  *                     type: string
  *                   price:
  *                     type: number
- *                   quantity:
- *                     type: number
  *                   uom:
  *                     type: string
  *                   category:
@@ -124,5 +122,103 @@ router.get("/getProduct", verifyToken, getProduct);
  *         description: Server error
  */
 router.get("/getProductKeyValuePair", verifyToken, getProductKeyValuePair);
+
+/**
+ * @swagger
+ * /product/update/{productId}:
+ *   put:
+ *     summary: Update a product
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: productId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the product to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               productName:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               uom:
+ *                 type: string
+ *               category:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Product updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 product:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                     productName:
+ *                       type: string
+ *                     price:
+ *                       type: number
+ *                     uom:
+ *                       type: string
+ *                     category:
+ *                       type: string
+ *                     image:
+ *                       type: string
+ *       400:
+ *         description: Invalid input
+ *       404:
+ *         description: Product not found
+ *       500:
+ *         description: Server error
+ */
+router.put("/update/:productId", verifyToken, updateProduct);
+
+/**
+ * @swagger
+ * /product/delete/{productId}:
+ *   delete:
+ *     summary: Delete a product
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: productId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the product to delete
+ *     responses:
+ *       200:
+ *         description: Product deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: Product not found
+ *       500:
+ *         description: Server error
+ */
+router.delete("/delete/:productId", verifyToken, deleteProduct);
 
 module.exports = router;

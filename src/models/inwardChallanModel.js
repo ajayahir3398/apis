@@ -3,9 +3,9 @@ const mongoose = require("mongoose");
 const inwardChallanSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    customer: {
+    supplier: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Customer",
+      ref: "Supplier",
       required: true,
     },
     date: { type: Date, required: true },

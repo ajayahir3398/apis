@@ -2,10 +2,10 @@ const Product = require("../models/productModel");
 
 exports.addProduct = async (req, res) => {
   try {
-    const { productName, price, quantity, uom, category, image } = req.body;
+    const { productName, price, uom, category, image } = req.body;
 
     // Validate input
-    if (!productName || !price || !quantity || !uom || !category || !image) {
+    if (!productName || !price || !uom || !category || !image) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -14,7 +14,6 @@ exports.addProduct = async (req, res) => {
       user: req.user.userId,
       productName,
       price,
-      quantity,
       uom,
       category,
       image,
@@ -62,6 +61,61 @@ exports.getProductKeyValuePair = async (req, res) => {
       value: product.productName,
     }));
     return res.status(200).json(productList);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.updateProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const { productName, price, uom, category, image } = req.body;
+
+    // Validate input
+    if (!productName || !price || !uom || !category || !image) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const product = await Product.findOneAndUpdate(
+      { _id: productId, user: req.user.userId },
+      {
+        productName,
+        price,
+        uom,
+        category,
+        image,
+      },
+      { new: true }
+    );
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Product updated successfully", product });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.deleteProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    const product = await Product.findOneAndDelete({
+      _id: productId,
+      user: req.user.userId,
+    });
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    return res.status(200).json({ message: "Product deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

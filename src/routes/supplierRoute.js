@@ -1,21 +1,21 @@
 const express = require("express");
 const {
-  addCustomer,
-  getCustomer,
-  getCustomerKeyValuePair,
-  updateCustomer,
-  deleteCustomer,
-} = require("../controllers/customerController");
+  addSupplier,
+  getSupplier,
+  getSupplierKeyValuePair,
+  updateSupplier,
+  deleteSupplier,
+} = require("../controllers/supplierController");
 const verifyToken = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 /**
  * @swagger
- * /customer/add:
+ * /supplier/add:
  *   post:
- *     summary: Add a new customer
- *     tags: [Customer]
+ *     summary: Add a new supplier
+ *     tags: [Supplier]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -27,7 +27,7 @@ const router = express.Router();
  *             properties:
  *               businessName:
  *                 type: string
- *               customerName:
+ *               supplierName:
  *                 type: string
  *               gstNo:
  *                 type: string
@@ -55,7 +55,7 @@ const router = express.Router();
  *                 type: string
  *     responses:
  *       201:
- *         description: Customer added successfully
+ *         description: Supplier added successfully
  *         content:
  *           application/json:
  *             schema:
@@ -68,25 +68,25 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.post("/add", verifyToken, addCustomer);
+router.post("/add", verifyToken, addSupplier);
 
 /**
  * @swagger
- * /customer/getCustomer:
+ * /supplier/getSupplier:
  *   get:
- *     summary: Get a customer by ID or get all customers
- *     tags: [Customer]
+ *     summary: Get a supplier by ID or get all suppliers
+ *     tags: [Supplier]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: query
- *         name: customerId
+ *         name: supplierId
  *         schema:
  *           type: string
- *         description: The ID of the customer to retrieve
+ *         description: The ID of the supplier to retrieve
  *     responses:
  *       200:
- *         description: Customers fetched successfully
+ *         description: Suppliers fetched successfully
  *         content:
  *           application/json:
  *             schema:
@@ -98,7 +98,7 @@ router.post("/add", verifyToken, addCustomer);
  *                     type: string
  *                   businessName:
  *                     type: string
- *                   customerName:
+ *                   supplierName:
  *                     type: string
  *                   gstNo:
  *                     type: string
@@ -128,23 +128,23 @@ router.post("/add", verifyToken, addCustomer);
  *                       country:
  *                         type: string
  *       404:
- *         description: Customer not found
+ *         description: Supplier not found
  *       500:
  *         description: Server error
  */
-router.get("/getCustomer", verifyToken, getCustomer);
+router.get("/getSupplier", verifyToken, getSupplier);
 
 /**
  * @swagger
- * /customer/getCustomerKeyValuePair:
+ * /supplier/getSupplierKeyValuePair:
  *   get:
- *     summary: Get customer key-value pairs for dropdown selection
- *     tags: [Customer]
+ *     summary: Get supplier key-value pairs for dropdown selection
+ *     tags: [Supplier]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Customer fetched successfully
+ *         description: Supplier fetched successfully
  *         content:
  *           application/json:
  *             schema:
@@ -159,23 +159,23 @@ router.get("/getCustomer", verifyToken, getCustomer);
  *       500:
  *         description: Server error
  */
-router.get("/getCustomerKeyValuePair", verifyToken, getCustomerKeyValuePair);
+router.get("/getSupplierKeyValuePair", verifyToken, getSupplierKeyValuePair);
 
 /**
  * @swagger
- * /customer/update/{customerId}:
+ * /supplier/update/{supplierId}:
  *   put:
- *     summary: Update a customer
- *     tags: [Customer]
+ *     summary: Update a supplier
+ *     tags: [Supplier]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: customerId
+ *         name: supplierId
  *         schema:
  *           type: string
  *         required: true
- *         description: The ID of the customer to update
+ *         description: The ID of the supplier to update
  *     requestBody:
  *       required: true
  *       content:
@@ -185,7 +185,7 @@ router.get("/getCustomerKeyValuePair", verifyToken, getCustomerKeyValuePair);
  *             properties:
  *               businessName:
  *                 type: string
- *               customerName:
+ *               supplierName:
  *                 type: string
  *               gstNo:
  *                 type: string
@@ -213,7 +213,7 @@ router.get("/getCustomerKeyValuePair", verifyToken, getCustomerKeyValuePair);
  *                 type: string
  *     responses:
  *       200:
- *         description: Customer updated successfully
+ *         description: Supplier updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -221,14 +221,14 @@ router.get("/getCustomerKeyValuePair", verifyToken, getCustomerKeyValuePair);
  *               properties:
  *                 message:
  *                   type: string
- *                 customer:
+ *                 supplier:
  *                   type: object
  *                   properties:
  *                     _id:
  *                       type: string
  *                     businessName:
  *                       type: string
- *                     customerName:
+ *                     supplierName:
  *                       type: string
  *                     gstNo:
  *                       type: string
@@ -260,30 +260,30 @@ router.get("/getCustomerKeyValuePair", verifyToken, getCustomerKeyValuePair);
  *       400:
  *         description: Invalid input
  *       404:
- *         description: Customer not found
+ *         description: Supplier not found
  *       500:
  *         description: Server error
  */
-router.put("/update/:customerId", verifyToken, updateCustomer);
+router.put("/update/:supplierId", verifyToken, updateSupplier);
 
 /**
  * @swagger
- * /customer/delete/{customerId}:
+ * /supplier/delete/{supplierId}:
  *   delete:
- *     summary: Delete a customer
- *     tags: [Customer]
+ *     summary: Delete a supplier
+ *     tags: [Supplier]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: customerId
+ *         name: supplierId
  *         schema:
  *           type: string
  *         required: true
- *         description: The ID of the customer to delete
+ *         description: The ID of the supplier to delete
  *     responses:
  *       200:
- *         description: Customer deleted successfully
+ *         description: Supplier deleted successfully
  *         content:
  *           application/json:
  *             schema:
@@ -292,10 +292,10 @@ router.put("/update/:customerId", verifyToken, updateCustomer);
  *                 message:
  *                   type: string
  *       404:
- *         description: Customer not found
+ *         description: Supplier not found
  *       500:
  *         description: Server error
  */
-router.delete("/delete/:customerId", verifyToken, deleteCustomer);
+router.delete("/delete/:supplierId", verifyToken, deleteSupplier);
 
 module.exports = router;

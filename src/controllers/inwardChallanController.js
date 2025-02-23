@@ -4,7 +4,7 @@ const Product = require("../models/productModel");
 exports.addInwardChallan = async (req, res) => {
   try {
     const {
-      customer,
+      supplier,
       date,
       vehicleNo,
       driverName,
@@ -14,7 +14,7 @@ exports.addInwardChallan = async (req, res) => {
 
     // Validate input
     if (
-      !customer ||
+      !supplier ||
       !date ||
       !vehicleNo ||
       !driverName ||
@@ -32,7 +32,7 @@ exports.addInwardChallan = async (req, res) => {
     // Create inward challan
     const newInwardChallan = new InwardChallan({
       user: req.user.userId,
-      customer,
+      supplier,
       date,
       vehicleNo,
       driverName,

@@ -1,0 +1,27 @@
+const mongoose = require("mongoose");
+
+const supplierSchema = new mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    businessName: { type: String, required: true },
+    supplierName: { type: String, required: true },
+    gstNo: { type: String, required: true },
+    mobileNo: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    gender: { type: String, enum: ["Male", "Female", "Other"], required: true },
+    dob: { type: Date, required: true },
+    image: { type: String, required: true },
+    address: {
+      street: { type: String, required: true },
+      street2: { type: String },
+      city: { type: String, required: true },
+      state: { type: String, required: true },
+      pinCode: { type: String, required: true },
+      country: { type: String, required: true },
+    },
+  },
+  { timestamps: true }
+);
+
+const Supplier = mongoose.model("Supplier", supplierSchema);
+module.exports = Supplier;
